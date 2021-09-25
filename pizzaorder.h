@@ -11,10 +11,10 @@
 #include <QLineEdit>
 #include <QValidator>
 #include <QIntValidator>
+
 #include "pizzaoptions.h"
-
-
 #include "address.h"
+#include "confirmation.h"
 
 class PostalCodeValidator : public QValidator
 {
@@ -29,6 +29,7 @@ class PizzaOrder : public QWidget
 {
     Q_OBJECT
     QString name;
+    Address* addr = nullptr;
     QString button_style;
     QVBoxLayout* layout = nullptr;
     QHBoxLayout* addr_layout_top = nullptr;
@@ -59,11 +60,15 @@ class PizzaOrder : public QWidget
     PostalCodeValidator* pcValid;
     QIntValidator* posIntValid;
     const QValidator* numberValid;
+    Confirmation* confirm_screen;
 public:
-    PizzaOrder(QWidget* parent = nullptr);
+    PizzaOrder(Confirmation* c, QWidget* parent = nullptr);
     ~PizzaOrder();
 public slots:
     void finishOrder();
+    void verifyDeliveryFields();
+private:
+    void openConfirmation();
 };
 
 #endif // PIZZAORDER_H

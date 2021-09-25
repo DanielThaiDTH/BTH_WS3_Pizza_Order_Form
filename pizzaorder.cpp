@@ -3,7 +3,7 @@
 #include <QLine>
 #include <QSizePolicy>
 
-PizzaOrder::PizzaOrder(QWidget* parent) : QWidget(parent)
+PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
 {
     button_style = "* { color: white; background: green; font-weight: bold; width: 150}\n";
     button_style += "*:pressed { background: #A0BB50 }\n";
@@ -13,6 +13,8 @@ PizzaOrder::PizzaOrder(QWidget* parent) : QWidget(parent)
     posIntValid = new QIntValidator(this);
     posIntValid->setBottom(0);
     numberValid = dynamic_cast<const QValidator*>(posIntValid);
+
+    confirm_screen = c;
 
     title = new QLabel("Pizza Order");
     title->setGeometry(0, 0, 200, 60);
@@ -37,6 +39,8 @@ PizzaOrder::PizzaOrder(QWidget* parent) : QWidget(parent)
     addr_header = new QLabel("Address");
     addr_header->setFont(font);
     addr_header->setContentsMargins(0, 5, 0, 0);
+
+    addr = new Address;
 
     //Address input
     street_field = new QLineEdit;
@@ -103,20 +107,75 @@ PizzaOrder::PizzaOrder(QWidget* parent) : QWidget(parent)
     layout->setSizeConstraint(QLayout::SetFixedSize);
 
     finish_button->setStyleSheet(button_style);
+    finish_button->setDisabled(true);
     setLayout(layout);
 
     connect(finish_button, &QPushButton::clicked, this, &PizzaOrder::finishOrder);
+    connect(name_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(street_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(street_num_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(apt_num_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(city_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(postal_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
 }
 
 
 PizzaOrder::~PizzaOrder()
 {
+    delete addr;
 }
 
 
 void PizzaOrder::finishOrder()
 {
     order_config = options->getConfig();
+    name = name_field->text();
+    addr->setStreet(street_field->text());
+    addr->setStreetNumber(street_num_field->text().toInt());
+
+    if (apt_num_field->hasAcceptableInput())
+        addr->setAptNumber(apt_num_field->text().toInt());
+    else
+        addr->setAptNumber(-1);
+
+    addr->setCity(city_field->text());
+    addr->setPostalCode(postal_field->text());
+    openConfirmation();
+}
+
+
+void PizzaOrder::openConfirmation()
+{
+
+    confirm_screen->setSummary(name, addr, order_config);
+    this->hide();
+    confirm_screen->show();
+}
+
+
+void PizzaOrder::verifyDeliveryFields()
+{
+    bool all_good = true;
+
+    if (name_field->text().size() == 0)
+        all_good = false;
+
+    if (city_field->text().size() == 0)
+        all_good = false;
+
+    if (street_field->text().size() == 0)
+        all_good = false;
+
+    if (!street_num_field->hasAcceptableInput())
+        all_good = false;
+
+    if (!postal_field->hasAcceptableInput())
+        all_good = false;
+
+    if (all_good)
+        finish_button->setEnabled(true);
+    else
+        finish_button->setDisabled(true);
 }
 
 

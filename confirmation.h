@@ -5,8 +5,12 @@
 #include <QWidget>
 #include <QPushButton>
 #include <QLabel>
+#include <QString>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+
+#include "pizzaoptions.h"
+#include "address.h"
 
 class Confirmation : public QWidget
 {
@@ -16,9 +20,11 @@ class Confirmation : public QWidget
     QVBoxLayout* layout;
     QPushButton* confirm_button;
     QPushButton* cancel_button;
+    PizzaSize size;
 public:
     Confirmation(QWidget* parent = nullptr);
     ~Confirmation();
+    void setSummary(QString name, const Address* addr, const PizzaConfig* options);
 };
 
 #endif // CONFIRMATION_H

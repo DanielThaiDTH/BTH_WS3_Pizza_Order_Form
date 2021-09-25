@@ -7,7 +7,8 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    PizzaOrder po;
+    Confirmation c;
+    PizzaOrder po(&c);
     //Confirmation c;
 
     po.show();

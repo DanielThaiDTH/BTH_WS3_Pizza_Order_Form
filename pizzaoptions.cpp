@@ -55,6 +55,8 @@ PizzaOptions::PizzaOptions(QWidget* parent) : QWidget(parent)
     layout->addWidget(topping_box);
     setLayout(layout);
 
+    config = new PizzaConfig;
+
     connect(size_box, &QComboBox::currentTextChanged, this, &PizzaOptions::setCheeseOpt);
     connect(reset_button, &QPushButton::clicked, this, &PizzaOptions::resetOrder);
 }
@@ -62,10 +64,7 @@ PizzaOptions::PizzaOptions(QWidget* parent) : QWidget(parent)
 
 PizzaOptions::~PizzaOptions()
 {
-//    delete topping_layout;
-//    delete topping_box;
-//    delete sizes;
-//    delete toppings;
+    delete config;
 }
 
 
