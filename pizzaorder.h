@@ -31,6 +31,7 @@ class PizzaOrder : public QWidget
     Address* addr = nullptr;
     QString button_style;
     QString cancel_style;
+    QString error_style;
     QVBoxLayout* layout = nullptr;
     QHBoxLayout* top_layout = nullptr;
     QHBoxLayout* addr_layout_top = nullptr;
@@ -70,6 +71,7 @@ public:
 public slots:
     void finishOrder();
     void verifyDeliveryFields();
+    void checkPostalField();
 private:
     void openConfirmation();
 };

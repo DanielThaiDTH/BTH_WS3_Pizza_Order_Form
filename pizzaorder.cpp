@@ -11,6 +11,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     button_style += "*:disabled { background: #A0C0A0 }";
     cancel_style = "* { color: white; background: #990000; font-weight: bold; width: 100 }\n";
     cancel_style += "*:hover { background: #DD2000 }";
+    error_style = "* { background: pink }";
 
     layout = new QVBoxLayout(this);
     layout->setGeometry(QRect(70, 70, 580, 300));
@@ -86,6 +87,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     postal_field->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     pcValid = new PostalCodeValidator;
     postal_field->setValidator(pcValid);
+    postal_field->setPlaceholderText("e.g. A1C2G3");
     postal_form = new QFormLayout;
     postal_form->addRow("Postal Code: ", postal_field);
 
@@ -132,6 +134,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     connect(apt_num_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
     connect(city_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
     connect(postal_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(postal_field, &QLineEdit::textChanged, this, &PizzaOrder::checkPostalField);
     connect(confirm_screen, &Confirmation::switchWindow, this, &QWidget::show);
 }
 
@@ -195,6 +198,15 @@ void PizzaOrder::verifyDeliveryFields()
 }
 
 
+void PizzaOrder::checkPostalField()
+{
+    if (postal_field->hasAcceptableInput())
+        postal_field->setStyleSheet("");
+    else
+        postal_field->setStyleSheet(error_style);
+}
+
+//PostalCodeValidator
 PostalCodeValidator::PostalCodeValidator(QWidget* parent) : QValidator(parent)
 {
 }
