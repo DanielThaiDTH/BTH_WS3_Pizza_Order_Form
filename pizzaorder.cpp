@@ -2,18 +2,25 @@
 #include <QFont>
 #include <QLine>
 #include <QSizePolicy>
+#include <QApplication>
 
 PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
 {
     button_style = "* { color: white; background: green; font-weight: bold; width: 150}\n";
     button_style += "*:pressed { background: #A0BB50 }\n";
     button_style += "*:disabled { background: #A0C0A0 }";
+    cancel_style = "* { color: white; background: #990000; font-weight: bold; width: 100 }\n";
+    cancel_style += "*:hover { background: #DD2000 }";
+
     layout = new QVBoxLayout(this);
     layout->setGeometry(QRect(70, 70, 580, 300));
+    top_layout = new QHBoxLayout;
+
     posIntValid = new QIntValidator(this);
     posIntValid->setBottom(0);
     numberValid = dynamic_cast<const QValidator*>(posIntValid);
 
+    //Aggregate confirm screen
     confirm_screen = c;
 
     title = new QLabel("Pizza Order");
@@ -23,7 +30,13 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     title_font.setPointSize(25);
     title_font.setWeight(QFont::Bold);
     title->setFont(title_font);
-    title->setSizePolicy(QSizePolicy()); //Standard behaviour is fixed
+    title->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed); //Standard behaviour is fixed
+
+    cancel = new QPushButton("Cancel");
+    cancel->setStyleSheet(cancel_style);
+
+    top_layout->addWidget(title);
+    top_layout->addWidget(cancel);
 
     //Name field
     name_form = new QFormLayout();
@@ -98,7 +111,8 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     end->addWidget(finish_button);
 
     //Insert into root layout
-    layout->addWidget(title, Qt::AlignTop);
+    //layout->addWidget(title, Qt::AlignTop);
+    layout->addLayout(top_layout);
     layout->addLayout(name_form);
     layout->addWidget(addr_header);
     layout->addLayout(addr_layout);
@@ -110,6 +124,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     finish_button->setDisabled(true);
     setLayout(layout);
 
+    connect(cancel, &QPushButton::clicked, qApp, &QApplication::exit);
     connect(finish_button, &QPushButton::clicked, this, &PizzaOrder::finishOrder);
     connect(name_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
     connect(street_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);

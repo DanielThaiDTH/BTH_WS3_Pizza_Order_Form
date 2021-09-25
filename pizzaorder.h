@@ -30,12 +30,16 @@ class PizzaOrder : public QWidget
     QString name;
     Address* addr = nullptr;
     QString button_style;
+    QString cancel_style;
     QVBoxLayout* layout = nullptr;
+    QHBoxLayout* top_layout = nullptr;
     QHBoxLayout* addr_layout_top = nullptr;
     QHBoxLayout* addr_layout_bot = nullptr;
     QGridLayout* addr_layout = nullptr;
     QHBoxLayout* end = nullptr;
+    //Top
     QLabel* title = nullptr;
+    QPushButton* cancel = nullptr;
     QLabel* addr_header = nullptr;
     //Forms
     QLineEdit* name_field = nullptr;
