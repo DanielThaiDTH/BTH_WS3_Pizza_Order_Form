@@ -45,3 +45,56 @@ void Address::cleanPostalCode(QString& pcode)
 
     pcode = QString::fromStdString(pc);
 }
+
+
+//Setters
+void Address::setStreet(const QString& new_street)
+{
+    street = new_street;
+}
+
+void Address::setStreetNumber(size_t new_street_number)
+{
+    street_num = new_street_number;
+}
+
+void Address::setAptNumber(int new_apt_number)
+{
+    apt_num = new_apt_number;
+}
+
+void Address::setCity(const QString& new_city)
+{
+    city = new_city;
+}
+
+void Address::setPostalCode(const QString& new_postal_code)
+{
+    postal_code = new_postal_code;
+}
+
+
+//Getters
+QString Address::getStreet() const
+{
+    return street;
+}
+int Address::getStreetNumber() const
+{
+    return street_num;
+}
+
+int Address::getAptNumber() const
+{
+    return apt_num;
+}
+
+QString Address::getCity() const
+{
+    return city;
+}
+
+QString Address::getPostalCode() const
+{
+    return postal_code;
+}

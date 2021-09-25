@@ -117,6 +117,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     connect(apt_num_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
     connect(city_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
     connect(postal_field, &QLineEdit::textChanged, this, &PizzaOrder::verifyDeliveryFields);
+    connect(confirm_screen, &Confirmation::switchWindow, this, &QWidget::show);
 }
 
 

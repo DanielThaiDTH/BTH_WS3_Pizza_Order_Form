@@ -1,4 +1,5 @@
 #include "confirmation.h"
+#include <QApplication>
 
 Confirmation::Confirmation(QWidget* parent) : QWidget(parent)
 {
@@ -14,6 +15,10 @@ Confirmation::Confirmation(QWidget* parent) : QWidget(parent)
     layout->addWidget(summary);
     layout->addLayout(button_layout);
     setLayout(layout);
+
+    connect(confirm_button, &QPushButton::clicked, qApp, &QApplication::exit);
+    connect(cancel_button, &QPushButton::clicked, this, &QWidget::hide);
+    connect(cancel_button, &QPushButton::clicked, this, &Confirmation::cancel);
 }
 
 Confirmation::~Confirmation()
@@ -55,4 +60,10 @@ void Confirmation::setSummary(QString name, const Address* addr, const PizzaConf
 
     text += ", " + addr->getCity() + " " + addr->getPostalCode();
     summary->setText(text);
+}
+
+
+void Confirmation::cancel()
+{
+    emit switchWindow();
 }

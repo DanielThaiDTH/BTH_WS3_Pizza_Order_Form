@@ -13,7 +13,6 @@
 #include <QIntValidator>
 
 #include "pizzaoptions.h"
-#include "address.h"
 #include "confirmation.h"
 
 class PostalCodeValidator : public QValidator

@@ -25,6 +25,10 @@ public:
     Confirmation(QWidget* parent = nullptr);
     ~Confirmation();
     void setSummary(QString name, const Address* addr, const PizzaConfig* options);
+public slots:
+    void cancel();
+signals:
+    void switchWindow();
 };
 
 #endif // CONFIRMATION_H

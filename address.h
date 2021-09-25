@@ -19,7 +19,7 @@ public:
     //Setters
     void setStreet(const QString& new_street);
     void setStreetNumber(size_t new_street_number);
-    void setAptNumber(size_t new_apt_number);
+    void setAptNumber(int new_apt_number);
     void setCity(const QString& new_city);
     void setPostalCode(const QString& new_postal_code);
     //Getters
