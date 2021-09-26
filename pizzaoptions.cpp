@@ -50,6 +50,7 @@ PizzaOptions::PizzaOptions(QWidget* parent) : QWidget(parent)
     topping_layout->addWidget(new QLabel("*Extra cheese not available for large pizzas"), 2, 1);
 
     topping_box->setLayout(topping_layout);
+    topping_box->setStyleSheet("QGroupBox { background-color: #FAF3E5 }");
     layout->addLayout(header);
     layout->addLayout(size_form);
     layout->addWidget(topping_box);

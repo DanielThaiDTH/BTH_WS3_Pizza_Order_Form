@@ -50,7 +50,7 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     addr_layout_top = new QHBoxLayout;
     addr_layout_bot = new QHBoxLayout;
     addr_layout = new QGridLayout;
-    addr_header = new QLabel("Address");
+    addr_header = new QLabel("Delivery Address");
     addr_header->setFont(font);
     addr_header->setContentsMargins(0, 5, 0, 0);
 
@@ -108,12 +108,14 @@ PizzaOrder::PizzaOrder(Confirmation* c, QWidget* parent) : QWidget(parent)
     end = new QHBoxLayout;
     finish_button = new QPushButton("Finish Order");
     finish_button->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed));
+    err_msg = new QLabel;
+    err_msg->setStyleSheet("* { color: #990000; font-weight: bold }");
     end->setAlignment(Qt::AlignRight);
     end->setSizeConstraint(QLayout::SetNoConstraint);
+    end->addWidget(err_msg);
     end->addWidget(finish_button);
 
     //Insert into root layout
-    //layout->addWidget(title, Qt::AlignTop);
     layout->addLayout(top_layout);
     layout->addLayout(name_form);
     layout->addWidget(addr_header);
@@ -191,10 +193,13 @@ void PizzaOrder::verifyDeliveryFields()
     if (!postal_field->hasAcceptableInput())
         all_good = false;
 
-    if (all_good)
+    if (all_good) {
+        err_msg->setText("");
         finish_button->setEnabled(true);
-    else
+    } else {
+        err_msg->setText("Missing or incorrect information.");
         finish_button->setDisabled(true);
+    }
 }
 
 

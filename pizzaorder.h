@@ -59,6 +59,7 @@ class PizzaOrder : public QWidget
     PizzaOptions* options = nullptr;
     //End
     QPushButton* finish_button = nullptr;
+    QLabel* err_msg = nullptr;
     const PizzaConfig* order_config = nullptr;
     //Validators
     PostalCodeValidator* pcValid;
