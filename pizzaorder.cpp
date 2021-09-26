@@ -160,7 +160,7 @@ void PizzaOrder::finishOrder()
         addr->setAptNumber(-1);
 
     addr->setCity(city_field->text());
-    addr->setPostalCode(postal_field->text());
+    addr->setPostalCode(postal_field->text().toUpper());
     openConfirmation();
 }
 

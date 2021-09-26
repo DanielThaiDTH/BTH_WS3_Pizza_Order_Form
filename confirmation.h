@@ -25,6 +25,7 @@ public:
     Confirmation(QWidget* parent = nullptr);
     ~Confirmation();
     void setSummary(QString name, const Address* addr, const PizzaConfig* options);
+    QString formatPostalCode(const QString& code);
 public slots:
     void cancel();
 signals:

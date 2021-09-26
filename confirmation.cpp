@@ -72,13 +72,22 @@ void Confirmation::setSummary(QString name, const Address* addr, const PizzaConf
 
     text += "Your pizza will be delivered to ";
     text += QString::number(addr->getStreetNumber());
-    text += " " + addr->getStreet() + " ";
+    text += " " + addr->getStreet();
 
     if (addr->getAptNumber() != -1)
-        text += "Apartment #" + QString::number(addr->getAptNumber());
+        text += " Apartment #" + QString::number(addr->getAptNumber());
 
-    text += ", " + addr->getCity() + " " + addr->getPostalCode();
+    text += ", " + addr->getCity() + " " + formatPostalCode(addr->getPostalCode());
     summary->setText(text);
+}
+
+
+QString Confirmation::formatPostalCode(const QString& code)
+{
+    QString fixed = code;
+    fixed.insert(3, ' ');
+
+    return fixed;
 }
 
 
